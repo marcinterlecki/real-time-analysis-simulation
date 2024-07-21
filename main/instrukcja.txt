@@ -1,0 +1,52 @@
+##TERMINAL 0
+SET PATH=%PATH%;C:\JAVA\BIN
+
+##Terminal 1 ZOOKEEPER cd c:\kafka\kafka_2.13-3.3.2
+
+BIN/WINDOWS/ZOOKEEPER-SERVER-START.BAT ./CONFIG/ZOOKEEPER.PROPERTIES
+.\BIN\WINDOWS\ZOOKEEPER-SERVER-START.BAT .\CONFIG\ZOOKEEPER.PROPERTIES
+
+##Terminal 2 SERVER cd c:\kafka\kafka_2.13-3.3.2
+
+./BIN/WINDOWS/KAFKA-SERVER-START.BAT ./CONFIG/SERVER.PROPERTIES
+.\BIN\WINDOWS\KAFKA-SERVER-START.BAT .\CONFIG\SERVER.PROPERTIES
+
+##Terminal 3 STREAM cd c:\localspark
+
+python sendStream.py bankstream.csv test
+
+##Terminal 4 DECISION bash cd c:/localspark/main
+
+PYSPARK_PYTHON=c:/python311/python.exe spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.4.0 mainApp.py
+
+
+PYSPARK_PYTHON=c:/python311/python.exe spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.4.0 --jars jdbc/mssql-jdbc-12.2.0.jre8.jar mainAppConnector.py
+
+####pdfWriter cd pdfWriter
+
+PYSPARK_PYTHON=c:/python311/python.exe spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.4.0 pdfWriter.py
+
+
+### kafka
+
+topic cd c:\kafka\kafka_2.13-3.3.2\bin\windows
+kafka-topics.bat --create --bootstrap-server localhost:9092 --topic test
+lista topicow
+kafka-topics --bootstrap-server localhost:9092 --list
+
+
+##producer cd c:\kafka\kafka_2.13-3.3.2\bin\windows
+
+>kafka-console-producer.bat --broker-list localhost:9092 --topic test
+
+##consumer
+
+kafka-console-consumer.bat --topic test --bootstrap-server localhost:9092 --from-beginning
+
+
+
+
+
+Pakiety
+
+pip install fpdf pyspark sqlalchemy pandas
